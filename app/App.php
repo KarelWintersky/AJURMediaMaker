@@ -18,12 +18,15 @@ class App extends \Arris\App
 
     public static string $bot_token;
 
-    public static $template;
+    /**
+     * @var Template
+     */
+    public static Template $template;
 
     /**
      * @var FlashMessages
      */
-    public static $flash;
+    public static FlashMessages $flash;
 
     public static function init(array $config)
     {
@@ -49,7 +52,7 @@ class App extends \Arris\App
             ->setTemplateDir(config('path.templates'))
             ->setCompileDir(config('path.cache'))
             ->setForceCompile(true)
-            ->registerClass("Arris\AppRouter", "Arris\AppRouter");
+            ;
 
         self::$template->assign("flash_messages", App::$flash->getMessage('flash', []));
 

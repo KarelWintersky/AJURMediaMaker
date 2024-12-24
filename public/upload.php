@@ -18,7 +18,7 @@ try {
         throw new RuntimeException("UPLOAD: file upload error: " . $handle->error);
     }
 
-    $handle->file_new_name_body = getSystemUUID();
+    $handle->file_new_name_body = $uuid = getSystemUUID();
     $storage_path = config('path.storage.inbound');
 
     // файл нужно сохранить на диск под UUID-именем
@@ -26,23 +26,29 @@ try {
     if (!$handle->processed) {
         throw new RuntimeException("UPLOAD: file processing error: " . $handle->error);
     }
-    $mimetype = $handle->file_src_mime;
 
-    $process_properties = json_decode($_POST['properties'], true);
+    // определить Mime-тип (для видео или фото разные параметры ffmpeg)
+    $mimetype = $handle->file_src_mime;
+    $is_image = str_contains($mimetype, 'image/');
+    $is_video = str_contains($mimetype, 'video/');
 
     // определить параметры логотипа из POST-данных
-    // определить Mime-тип (для видео или фото разные параметры ffmpeg)
+    $process_properties = json_decode($_POST['properties'], true);
+
     // сформировать команду для обработки
-
-    \AJURMediaMaker\Units\Convertor::convert($handle->file_dst_name, $mimetype, $process_properties);
-
     // выполнить команду
     // дождаться выполнения
+    \AJURMediaMaker\Units\Convertor::convert($handle->file_dst_name, $mimetype, $process_properties);
+
     // сделать редирект на страницу download.php на которой нарисовать картинку и дать кнопку для скачивания
     // (причем путь к странице должен содержать UUID имя файла)
     // или не делать, а вывести шаблон?
 
-
+    App::$template->assign('uuid', $uuid);
+    App::$template->assign('dest_file', config('path.storage.outbound') . DIRECTORY_SEPARATOR . $handle->file_dst_name );
+    App::$template->assign('is_image', $is_image);
+    App::$template->assign('is_video', $is_video);
+    App::$template->setTemplate("result.tpl");
 
 } catch (RuntimeException $e) {
     dd($e);
