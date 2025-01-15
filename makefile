@@ -18,10 +18,10 @@ install: 	##@system Install package. Don't run it manually!!!
 	cp -r files $(PATH_PROJECT)
 	cp composer.json $(PATH_PROJECT)
 #	cp $(PATH_WWW)/frontend/favicon/favicon.ico $(PATH_WWW)/
-	git rev-parse --short HEAD > $(PATH_WWW)/_version
-	git log --oneline --format=%B -n 1 HEAD | head -n 1 >> $(PATH_WWW)/_version
-	git log --oneline --format="%at" -n 1 HEAD | xargs -I{} date -d @{} +%Y-%m-%d >> $(PATH_WWW)/_version
-	set -e && cd $(PATH_PROJECT)/ && composer install && rm composer.lock
+	git rev-parse --short HEAD > $(PATH_PROJECT)/_version
+	git log --oneline --format=%B -n 1 HEAD | head -n 1 >> $(PATH_PROJECT)/_version
+	git log --oneline --format="%at" -n 1 HEAD | xargs -I{} date -d @{} +%Y-%m-%d >> $(PATH_PROJECT)/_version
+	set -e && cd $(PATH_PROJECT)/ && composer install
 #	cp makefile.production-toolkit $(PATH_PROJECT)/makefile
 	install -d $(PATH_PROJECT)/cache
 	install -d $(PATH_PROJECT)/logs
