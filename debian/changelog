@@ -1,3 +1,9 @@
+ajur-media-maker (0.1.2) stable; urgency=medium
+
+  * Build fix
+
+ -- Karel Wintersky <wombat@fontanka.ru>  Wed, 15 Jan 2025 15:21:53 +0300
+
 ajur-media-maker (0.1.1) stable; urgency=medium
 
   * Build fix
