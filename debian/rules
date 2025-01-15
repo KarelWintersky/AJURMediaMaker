@@ -1,11 +1,13 @@
 #!/usr/bin/make -f
 #export DH_VERBOSE = 1
 
+PACKAGENAME := $(shell awk '/^Package:/ {print $$2;}' debian/control)
+
 %:
 	dh $@
 
 override_dh_auto_install:
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/ajur-media-maker
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/$(PACKAGENAME)
 
 override_dh_auto_build:
 

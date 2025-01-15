@@ -6,7 +6,10 @@ ANSI_GREEN='\033[0;32m'
 ANSI_YELLOW='\033[1;33m'
 ANSI_RESET='\033[0m'
 
-PATH_PROJECT=/var/www/ajur-media-maker
+PACKAGE_NAME=ajur-media-maker
+INSTALL_DIR=ajur_media_maker
+
+PATH_PROJECT=/var/www/${INSTALL_DIR}
 PATH_CONFIG=/etc/ajur/ajur-media-maker
 
 FLAG_CONFIG="0"

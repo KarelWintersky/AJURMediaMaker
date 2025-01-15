@@ -1,7 +1,7 @@
 #!/usr/bin/make
 # SHELL = bash
 PACKAGE_NAME = ajur-media-maker
-INSTALL_DIR = ajur-media-maker
+INSTALL_DIR = ajur_media_maker
 PATH_PROJECT = $(DESTDIR)/var/www/$(INSTALL_DIR)
 PATH_PUBLIC = $(PATH_PROJECT)/public
 
