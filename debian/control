@@ -8,5 +8,5 @@ Standards-Version: 3.9.8
 
 Package: ajur-media-maker
 Architecture: all
-Depends: nano, ffmpeg, sqlite, nginx-full, mysql-server | default-mysql-server, php-common, php-cli, php-curl, php-fpm, php-gd, php-iconv, php-intl, php-json, php-mbstring, php-mysql, php-mysqli, php-pdo, php-intl, php-readline, php-opcache, php-xml, php-zip, php-redis, php-sqlite3, php-uuid
+Depends: nano, ffmpeg, sqlite, nginx-full, mysql-server | default-mysql-server, php-common, php-cli, php-curl, php-fpm, php-gd, php-iconv, php-intl, php-json, php-mbstring, php-mysql, php-mysqli, php-pdo, php-intl, php-readline, php-opcache, php-xml, php-zip, php-redis
 Description: AJUR Media Maker fallback and bot
