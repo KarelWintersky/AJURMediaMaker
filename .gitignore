@@ -2,3 +2,6 @@
 vendor
 config.php
 composer.lock
+cache
+files.upload
+files.download

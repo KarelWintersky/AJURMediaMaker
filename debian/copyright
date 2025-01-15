@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ajur-media-maker
+Source:
+
+Files: debian/*
+Copyright: 2018 Vasiliy Misharev <druid@fontanka.ru>
+License: GPL-3.0+
+

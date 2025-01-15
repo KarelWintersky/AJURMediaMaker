@@ -1,0 +1,11 @@
+Source: ajur-media-maker
+Section: unknown
+Priority: optional
+Maintainer: Karel Wintersky <wombat@fontanka.ru>
+Uploaders: Karel Wintersky <wombat@fontanka.ru>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 3.9.8
+
+Package: ajur-media-maker
+Architecture: all
+Description: AJUR Media Maker fallback and bot

@@ -23,7 +23,13 @@ class Convertor
         $is_image = str_contains($mimetype, 'image/');
         $is_video = str_contains($mimetype, 'video/');
 
-        $probe = new FFProbe($from);
+        // $probe = new FFProbe($from);
+
+        // на самом деле конвертируем видео всегда, потому что галочка с фронта не приходит, а приходит NULL
+        $is_convert = match (@$processing_properties['convert']) {
+            'on'    =>  true,
+            default =>  false
+        };
 
         $watermark_file = match ($processing_properties['watermark']) {
             "30"        =>  'watermark_30%.png',
@@ -61,8 +67,11 @@ class Convertor
             "[wm][logo]{$logo_corner}"
         ];
 
+        // $use_cpu_cores = _env('CRON.MEDIA_CONVERT.MAX_CPU_CORES', 'all', 'string');
+
         // формируем команду ffmpeg
         $ffmpeg_command = [
+            // 'limitCPU'  =>  $use_cpu_cores != 'all' ? "taskset -c {$use_cpu_cores}" : '',
             "ffmpeg",
             "-y",
             "-i {$from}",
@@ -72,9 +81,32 @@ class Convertor
             '"',
             implode(' ', $filter_complex),
             '"',
-            '-q:v 0',
-            $to
         ];
+
+        if ($is_image) {
+            $ffmpeg_command = array_merge($ffmpeg_command, [
+                '-q:v 0',
+            ]);
+        } else {
+            // $probe = new FFProbe($from);
+            // $params = self::determineVideoParams($probe);
+
+            $ffmpeg_command = array_merge($ffmpeg_command, [
+                // 'scale'     =>  "-vf scale={$params['vf_scale']}", //@todo: нужно убрать внутрь filter_comples
+                'vsync'     =>  "-vsync 1",
+                'framerate' =>  "-r 24",
+                "vcodec"    =>  "-c:v libx264",
+                'vbitrate'  =>  '-b:v 2M',        //@todo: no more than given, see $probe->?
+                'x264params'=>  '-x264-params "keyint=60:min-keyint=24:vbv-maxrate=2000:vbv-bufsize=4000"',
+                'moveflags' =>  '-movflags +faststart',
+                'acodec'    =>  "-c:a aac -b:a 128k",
+                'metadata'  =>  '-metadata copyright="AJUR Media Maker bot"'
+
+            ]);
+        }
+
+        // target
+        $ffmpeg_command = array_merge($ffmpeg_command, [ $to ]);
 
         $command = implode(' ', $ffmpeg_command);
 
@@ -89,6 +121,26 @@ class Convertor
 
         return $r;
         // return copy($from, $to);
+    }
+
+    private static function determineVideoParams(FFProbe $probe):array
+    {
+        if ($probe->height > $probe->width) {
+            $vf_scale = '720:-2';
+            $target_width = 720;
+            $target_height = round(720 * $probe->height / $probe->width);
+        } else {
+            $vf_scale = '-2:720';
+            $target_height = 720;
+            $target_width = round(720 * $probe->width / $probe->height);
+        }
+
+        return [
+            'is_even'   =>  true,
+            'width'     =>  $target_width,
+            'height'    =>  $target_height,
+            'vf_scale'  =>  $vf_scale
+        ];
     }
 
 }
