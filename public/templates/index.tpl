@@ -46,10 +46,10 @@
             transition: background-color 0.3s;
         }
         .button-active {
-            color: orange; /* Цвет текста для активной кнопки */
+            color: red; /* Цвет текста для активной кнопки */
         }
         button:hover {
-            background-color: yellowgreen;
+            background-color: blanchedalmond;
         }
         .checkbox-group {
             margin: 10px 0;
@@ -67,8 +67,10 @@
             }
         }
 
-        // Объект для хранения состояния кнопок
+        // Объект для хранения состояния фильтров
         let properties = { };
+
+        // все кнопки по-умолчанию
         let buttons = { };
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -89,13 +91,18 @@
                     return false;
                 }
 
-                if (!properties.file) {
+                if (!properties.watermark) {
                     alert('Не выбран файл логотипа');
                     return false;
                 }
 
                 if (!properties.corner) {
                     alert('Не выбран угол размещения логотипа');
+                    return false;
+                }
+
+                if (!_(`#income_file`).files.length) {
+                    alert('Пожалуйста, выберите файл для загрузки.');
                     return false;
                 }
 
@@ -131,7 +138,7 @@
             const params = new URLSearchParams(hash);
 
             properties.site = params.get('site');
-            properties.file = params.get('file');
+            properties.watermark = params.get('watermark');
             properties.corner = params.get('corner');
 
             for (const [key, value] of Object.entries(properties)) {
@@ -194,7 +201,7 @@
     <form action="upload.php" method="post" enctype="multipart/form-data" id="form">
         <input type="hidden" name="MAX_FILE_SIZE" value="{$max_upload_size}" />
         <div class="form-group">
-            <input type="file" name="income_file">
+            <input type="file" name="income_file" id="income_file">
         </div>
         <hr>
         <div class="form-group">
@@ -206,10 +213,13 @@
         </div>
 
         <div class="form-group">
-            <label>Файл накладываемого логотипа:</label>
+            <label>Watermark (фоновое изображение с прозрачностью):</label>
             <div class="button-group">
-                <button class="action-select-option" type="button" data-name="file" data-value="file1">Файл 1</button>
-                <button class="action-select-option" type="button" data-name="file" data-value="file2">Файл 2</button>
+                <button class="action-select-option" type="button" data-name="watermark" data-value="0">без вотермарки </button>
+                <button class="action-select-option" type="button" data-name="watermark" data-value="30">30% </button>
+                <button class="action-select-option" type="button" data-name="watermark" data-value="50">50%</button>
+                <button class="action-select-option" type="button" data-name="watermark" data-value="100">100%</button>
+                <button class="action-select-option" type="button" data-name="watermark" data-value="200">200%</button>
                 <!--<button class="action-select-option"  type="button" data-name="" data-value="">Файл 3</button>
                 <button class="action-select-option"  type="button" data-name="" data-value="">Файл 4</button>
                 <button class="action-select-option"  type="button" data-name="" data-value="">Файл 5</button>-->
@@ -219,16 +229,16 @@
         <div class="form-group">
             <label>Угол логотипа:</label>
             <div class="button-group">
-                <button class="action-select-option" type="button" data-name="corner" data-value="NW">&#8598;</button>
-                <button class="action-select-option" type="button" data-name="corner" data-value="NE">&#8599;</button>
-                <button class="action-select-option" type="button" data-name="corner" data-value="SE">&#8601;</button>
-                <button class="action-select-option" type="button" data-name="corner" data-value="SW">&#8600;</button>
+                <button class="action-select-option" type="button" data-name="corner" data-value="NW" style="font-size: x-large">&#8598;</button>
+                <button class="action-select-option" type="button" data-name="corner" data-value="NE" style="font-size: x-large">&#8599;</button>
+                <button class="action-select-option" type="button" data-name="corner" data-value="SE" style="font-size: x-large">&#8601;</button>
+                <button class="action-select-option" type="button" data-name="corner" data-value="SW" style="font-size: x-large">&#8600;</button>
             </div>
         </div>
 
         <div class="checkbox-group">
             <label>
-                <input type="checkbox" name="compress_video" checked> Пережимать видео
+                <input type="checkbox" name="compress_video" checked>Привести формат видео к ...
             </label>
         </div>
 

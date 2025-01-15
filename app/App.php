@@ -2,6 +2,7 @@
 
 namespace AJURMediaMaker;
 
+use Arris\AppLogger;
 use Arris\Core\Dot;
 use Arris\Database\DBWrapper;
 use Arris\Template\FlashMessages;
@@ -56,6 +57,9 @@ class App extends \Arris\App
 
         self::$template->assign("flash_messages", App::$flash->getMessage('flash', []));
 
+        AppLogger::init('ajur-media-maker', bin2hex(random_bytes(8)), [
+            'default_logfile_path'  =>  config('path.logs') . DIRECTORY_SEPARATOR
+        ]);
     }
 
     public static function log($data, $mode = 'debug')

@@ -24,13 +24,13 @@ class OutgoingFile
      */
     public string $fast_filepath;
 
-    public function __construct($uuid)
+    public function __construct($uuid, $extension = 'jpg')
     {
         $this->uuid = $uuid;
-        $this->filepath = config('path.storage.outbound') . '/' . $uuid . '.jpg';
+        $this->filepath = config('path.storage.outbound') . '/' . $uuid . '.' . $extension;
         $this->fileinfo = [
-            'fn_public' =>  $uuid . '.jpg',
-            'mimetype'  =>  'image/jpeg',
+            'fn_public' =>  $uuid . '.' . $extension,
+            'mimetype'  =>  mime_content_type($this->filepath),
             'filesize'  =>  filesize($this->filepath)
         ];
     }

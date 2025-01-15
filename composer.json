@@ -25,7 +25,10 @@
         "ajur-media/fluentpdo": "^1.99",
         "nutgram/nutgram": "^4.31",
         "karelwintersky/arris.template": "^0.99.3",
-        "verot/class.upload.php": "^2.1"
+        "verot/class.upload.php": "^2.1",
+        "ext-gd": "*",
+        "ext-fileinfo": "*",
+        "polyfills/array-find": "^1.0"
     },
     "autoload": {
         "files": [

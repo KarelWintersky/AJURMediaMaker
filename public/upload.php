@@ -38,20 +38,18 @@ try {
     // сформировать команду для обработки
     // выполнить команду
     // дождаться выполнения
-    \AJURMediaMaker\Units\Convertor::convert($handle->file_dst_name, $mimetype, $process_properties);
+    $r = \AJURMediaMaker\Units\Convertor::convert($handle->file_dst_name, $mimetype, $process_properties);
 
-    // сделать редирект на страницу download.php на которой нарисовать картинку и дать кнопку для скачивания
-    // (причем путь к странице должен содержать UUID имя файла)
-    // или не делать, а вывести шаблон?
-
+    // рисуем из шаблона страницу с картинкой и кнопкой скачивания
+    App::$template->assign('error', 0);
     App::$template->assign('uuid', $uuid);
     App::$template->assign('dest_file', config('path.storage.outbound') . DIRECTORY_SEPARATOR . $handle->file_dst_name );
-    App::$template->assign('is_image', $is_image);
-    App::$template->assign('is_video', $is_video);
+    App::$template->assign("dest_ext", $is_image ? 'jpg' : ($is_video ? 'mp4' : 'dat'));
     App::$template->setTemplate("result.tpl");
 
 } catch (RuntimeException $e) {
-    dd($e);
+    App::$template->assign("error", $e->getCode());
+    App::$template->assign("error_message", $e->getMessage());
 }
 
 $render = App::$template->render();
