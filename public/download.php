@@ -18,7 +18,7 @@ try {
 
     $uuid = $_GET['id'];
 
-    $f = new \AJURMediaMaker\Units\OutgoingFile($uuid, $_GET['ext']);
+    $f = new \AJURMediaMaker\Units\OutgoingFile($_GET['file'], $uuid, $_GET['ext']);
     $filename = $f->fileinfo['fn_public'];
     $filename_star = \Normalizer::normalize($filename);
 

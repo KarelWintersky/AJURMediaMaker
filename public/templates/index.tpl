@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Конвертация фото или видео</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -92,7 +92,7 @@
                 }
 
                 if (!properties.watermark) {
-                    alert('Не выбран файл логотипа');
+                    alert('Не выбран тип вотермарки');
                     return false;
                 }
 
@@ -213,16 +213,13 @@
         </div>
 
         <div class="form-group">
-            <label>Watermark (фоновое изображение с прозрачностью):</label>
+            <label>Watermark (фоновое изображение):</label>
             <div class="button-group">
                 <button class="action-select-option" type="button" data-name="watermark" data-value="0">без вотермарки </button>
                 <button class="action-select-option" type="button" data-name="watermark" data-value="30">30% </button>
                 <button class="action-select-option" type="button" data-name="watermark" data-value="50">50%</button>
                 <button class="action-select-option" type="button" data-name="watermark" data-value="100">100%</button>
                 <button class="action-select-option" type="button" data-name="watermark" data-value="200">200%</button>
-                <!--<button class="action-select-option"  type="button" data-name="" data-value="">Файл 3</button>
-                <button class="action-select-option"  type="button" data-name="" data-value="">Файл 4</button>
-                <button class="action-select-option"  type="button" data-name="" data-value="">Файл 5</button>-->
             </div>
         </div>
 
@@ -233,6 +230,17 @@
                 <button class="action-select-option" type="button" data-name="corner" data-value="NE" style="font-size: x-large">&#8599;</button>
                 <button class="action-select-option" type="button" data-name="corner" data-value="SE" style="font-size: x-large">&#8601;</button>
                 <button class="action-select-option" type="button" data-name="corner" data-value="SW" style="font-size: x-large">&#8600;</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Размер логотипа (рекомендуется 30%):</label>
+            <div class="button-group">
+                <button class="action-select-option" type="button" data-name="logoscale" data-value="10">10%</button>
+                <button class="action-select-option" type="button" data-name="logoscale" data-value="20">20%</button>
+                <button class="action-select-option button-active" type="button" data-name="logoscale" data-value="30">30%</button>
+                <button class="action-select-option" type="button" data-name="logoscale" data-value="40">40%</button>
+                <button class="action-select-option" type="button" data-name="logoscale" data-value="50">50%</button>
             </div>
         </div>
 

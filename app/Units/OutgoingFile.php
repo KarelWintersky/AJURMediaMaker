@@ -2,8 +2,12 @@
 
 namespace AJURMediaMaker\Units;
 
+use Arris\Entity\Result;
+
 class OutgoingFile
 {
+    public Result $state;
+
     /**
      * @var string
      */
@@ -24,10 +28,12 @@ class OutgoingFile
      */
     public string $fast_filepath;
 
-    public function __construct($uuid, $extension = 'jpg')
+    public function __construct($file, $uuid, $extension = 'jpg')
     {
+        $this->state = new Result();
+
         $this->uuid = $uuid;
-        $this->filepath = config('path.storage.outbound') . '/' . $uuid . '.' . $extension;
+        $this->filepath = config('path.storage.outbound') . DIRECTORY_SEPARATOR . $file;
         $this->fileinfo = [
             'fn_public' =>  $uuid . '.' . $extension,
             'mimetype'  =>  mime_content_type($this->filepath),

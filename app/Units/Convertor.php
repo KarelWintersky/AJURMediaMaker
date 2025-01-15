@@ -23,7 +23,7 @@ class Convertor
         $is_image = str_contains($mimetype, 'image/');
         $is_video = str_contains($mimetype, 'video/');
 
-        // $probe = new FFProbe($from);
+        $probe = new FFProbe($from);
 
         // на самом деле конвертируем видео всегда, потому что галочка с фронта не приходит, а приходит NULL
         $is_convert = match (@$processing_properties['convert']) {
@@ -40,7 +40,7 @@ class Convertor
         };
 
         $logo_file = match ($processing_properties['site']) {
-            '47news'    =>  'logo_47news.png',
+            '47news'    =>  'logo_47.png',
             default     =>  'logo_fontanka.png'
         };
 
@@ -57,13 +57,33 @@ class Convertor
             default     =>  'overlay=w/2;h/2'
         };
 
+        $logo_scale = match ($processing_properties['logoscale']) {
+            '10'        =>  0.1,
+            '20'        =>  0.2,
+            '30'        =>  0.3,
+            '40'        =>  0.4,
+            '50'        =>  0.5,
+            default     =>  0.3
+        };
+
+        $logo_scale_width = "iw*1";
+        if ($processing_properties['site'] == 'fontanka') {
+            // $logo_width = (new FFProbe($assets . DIRECTORY_SEPARATOR . $logo_file))->width
+            $logo_width = 573;
+            $q = round($probe->width * $logo_scale / $logo_width , 3);
+        } else {
+            $logo_width = 171;
+            $q = round($probe->width * $logo_scale / $logo_width , 3);
+            // $q = 1;
+        }
+
         // вот тут будем настраивать scale логотипа в зависимости от...
-        $logo_scale_w = "iw*1";
+        $logo_scale_width = "iw*{$q}";
 
         $filter_complex = [
             '[1:v]loop=loop=8:size=1:start=0,tile=3x3[wmtiled];',
             '[0:v][wmtiled]overlay=0:0[wm];',
-            "[2:v]scale={$logo_scale_w}:-1[logo];",
+            "[2:v]scale={$logo_scale_width}:-1[logo];",
             "[wm][logo]{$logo_corner}"
         ];
 

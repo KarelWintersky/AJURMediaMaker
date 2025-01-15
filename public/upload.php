@@ -43,8 +43,11 @@ try {
     // рисуем из шаблона страницу с картинкой и кнопкой скачивания
     App::$template->assign('error', 0);
     App::$template->assign('uuid', $uuid);
-    App::$template->assign('dest_file', config('path.storage.outbound') . DIRECTORY_SEPARATOR . $handle->file_dst_name );
+    App::$template->assign('dest_file', $handle->file_dst_name );
     App::$template->assign("dest_ext", $is_image ? 'jpg' : ($is_video ? 'mp4' : 'dat'));
+    App::$template->assign("is_image", $is_image);
+    App::$template->assign("is_video", $is_video);
+    App::$template->assign("domain", config('url.site'));
     App::$template->setTemplate("result.tpl");
 
 } catch (RuntimeException $e) {
